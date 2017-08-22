@@ -9,7 +9,7 @@ class VideoPixelNetworkModel:
         with tf.variable_scope('multiplicative_unit'):
             g1 = tf.layers.conv2d(
                 h,
-                self.config.mu_filters_num,
+                self.config.rmb_c,
                 3,
                 dilation_rate=dilation_rate,
                 padding='same',
@@ -20,7 +20,7 @@ class VideoPixelNetworkModel:
 
             g2 = tf.layers.conv2d(
                 h,
-                self.config.mu_filters_num,
+                self.config.rmb_c,
                 3,
                 dilation_rate=dilation_rate,
                 padding='same',
@@ -31,7 +31,7 @@ class VideoPixelNetworkModel:
 
             g3 = tf.layers.conv2d(
                 h,
-                self.config.mu_filters_num,
+                self.config.rmb_c,
                 3,
                 dilation_rate=dilation_rate,
                 padding='same',
@@ -42,7 +42,7 @@ class VideoPixelNetworkModel:
 
             u = tf.layers.conv2d(
                 h,
-                self.config.mu_filters_num,
+                self.config.rmb_c,
                 3,
                 dilation_rate=dilation_rate,
                 padding='same',
@@ -62,7 +62,7 @@ class VideoPixelNetworkModel:
         with tf.variable_scope('residual_multiplicative_block'):
             h1 = tf.layers.conv2d(
                 h,
-                self.config.rmb_h1_filters_num,
+                self.config.rmb_c,
                 1,
                 padding='same',
                 activation=None,
@@ -76,7 +76,7 @@ class VideoPixelNetworkModel:
 
             h4 = tf.layers.conv2d(
                 h3,
-                self.config.rmb_h4_filters_num,
+                2 * self.config.rmb_c,
                 1,
                 padding='same',
                 activation=None,
