@@ -6,8 +6,8 @@ class VideoPixelNetworkModel:
     def __init__(self, config):
         self.config = config
 
-    def multiplicative_unit(self, h, dilation_rate):
-        with tf.variable_scope('multiplicative_unit'):
+    def multiplicative_unit_without_mask(self, h, dilation_rate):
+        with tf.variable_scope('multiplicative_unit_without_mask'):
             g1 = tf.layers.conv2d(
                 h,
                 self.config.rmb_c,
@@ -60,7 +60,7 @@ class VideoPixelNetworkModel:
             return mu
 
     def multiplicative_unit_with_mask(self, h, mask_type, masked_channels, in_channels, out_channels):
-        with tf.variable_scope('multiplicative_unit'):
+        with tf.variable_scope('multiplicative_unit_without_mask'):
             g1 = masked_conv2d(
                 h,
                 in_channels,  # num of channels in input
@@ -128,9 +128,9 @@ class VideoPixelNetworkModel:
                 name='h1'
             )
 
-            h2 = self.multiplicative_unit(h1, dilation_rate)
+            h2 = self.multiplicative_unit_without_mask(h1, dilation_rate)
 
-            h3 = self.multiplicative_unit(h2, dilation_rate)
+            h3 = self.multiplicative_unit_without_mask(h2, dilation_rate)
 
             h4 = tf.layers.conv2d(
                 h3,
@@ -149,29 +149,28 @@ class VideoPixelNetworkModel:
     def residual_multiplicative_block_with_mask(self, h, first_block=False, last_block=False):
         with tf.variable_scope('residual_multiplicative_block'):
 
-            h1 = tf.layers.conv2d(
-                h,
-                self.config.rmb_c,
-                1,
-                padding='same',
-                activation=None,
-                kernel_initializer=tf.contrib.layers.xavier_initializer(),
-                name='h1'
-            )
-
             if first_block:
-                h2 = self.multiplicative_unit_with_mask(
-                    h1, 'A',
+                h1 = self.multiplicative_unit_with_mask(
+                    h, 'A',
                     self.config.input_shape[2],
-                    self.config.input_shape[2] + self.config.rmb_c,
-                    self.config.rmb_c,
+                    self.config.input_shape[2] + 2 * self.config.rmb_c,
                     self.config.rmb_c)
             else:
-                h2 = self.multiplicative_unit_with_mask(
-                    h1, 'B',
+                h1 = tf.layers.conv2d(
+                    h,
                     self.config.rmb_c,
-                    self.config.rmb_c,
-                    self.config.rmb_c)
+                    1,
+                    padding='same',
+                    activation=None,
+                    kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                    name='h1'
+                )
+
+            h2 = self.multiplicative_unit_with_mask(
+                h1, 'B',
+                self.config.rmb_c,
+                self.config.rmb_c,
+                self.config.rmb_c)
 
             h3 = self.multiplicative_unit_with_mask(
                 h2, 'B',
