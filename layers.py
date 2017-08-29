@@ -124,7 +124,7 @@ class BasicConvLSTMCell(ConvRNNCell):
 
     def __call__(self, inputs, state, scope=None):
         """Long short-term memory cell (LSTM)."""
-        with tf.variable_scope(scope or type(self).__name__):  # "BasicLSTMCell"
+        with tf.variable_scope(scope):  # "BasicLSTMCell"
             # Parameters of gates are concatenated into one multiply for efficiency.
             if self._state_is_tuple:
                 c, h = state
@@ -175,7 +175,7 @@ def _conv_linear(args, filter_size, num_features, bias, bias_start=0.0, scope=No
     dtype = [a.dtype for a in args][0]
 
     # Now the computation.
-    with tf.variable_scope(scope or "Conv"):
+    with tf.variable_scope(scope):
         matrix = tf.get_variable(
             "Matrix", [filter_size[0], filter_size[1], total_arg_size_depth, num_features], dtype=dtype, initializer=initializer)
         if len(args) == 1:
