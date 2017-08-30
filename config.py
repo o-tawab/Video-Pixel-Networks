@@ -42,3 +42,7 @@ class tiny_video_pixel_network_config:
     batch_size = 16
     truncated_steps = 10
     learning_rate = 3 * 1e-4
+
+    # Data config
+    data_dir = '/tmp/vpn/mnist_test_seq.npy'
+    train_sequences_num = 7000
