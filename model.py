@@ -1,5 +1,6 @@
 import tensorflow as tf
 from layers import masked_conv2d, BasicConvLSTMCell
+from logger import Logger
 
 
 class VideoPixelNetworkModel:
@@ -293,12 +294,16 @@ class VideoPixelNetworkModel:
             net_unwrap = tf.stack(net_unwrap)
             self.output = tf.transpose(net_unwrap, [1, 0, 2, 3, 4])
 
+            for i in range(self.config.truncated_steps):
+                Logger.summarize_images(self.output[:, i], 'frame_{0}'.format(i), 'vpn', 1)
+
         with tf.name_scope('loss'):
             self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=self.output, labels=self.sequences[:, 1:]))
-
             self.optimizer = tf.train.RMSPropOptimizer(learning_rate=self.config.learning_rate).minimize(self.loss)
 
         with tf.name_scope('inference_graph'):
             encoder_state, lstm_state = encoder_network_template(self.inference_prev_frame, lstm_state)
             self.inference_lstm_state = lstm_state
             self.inference_outputinference_output = decoder_network_template(self.inference_encoder_state, self.inference_current_frame)
+
+        self.summaries = tf.summary.merge_all('vpn')
