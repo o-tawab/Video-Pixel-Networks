@@ -5,6 +5,7 @@ from logger import Logger
 class GenerateData:
     def __init__(self, config):
         self.config = config
+        np.random.seed(123)
         sequences = np.load(config.data_dir).transpose((1, 0, 2, 3))
         sequences = np.expand_dims(np.squeeze(sequences), 4)
         shuffled_idxs = np.arange(sequences.shape[0])
@@ -21,5 +22,4 @@ class GenerateData:
             idx = np.random.choice(self.config.train_sequences_num, self.config.batch_size)
             current_sequence = self.train_sequences[idx]
 
-            yield current_sequence[:, :self.config.truncated_steps + 1], \
-                  current_sequence[:, self.config.truncated_steps:2 * self.config.truncated_steps + 1]
+            yield current_sequence[:, :self.config.truncated_steps + 1], current_sequence[:, self.config.truncated_steps:2 * self.config.truncated_steps + 1]

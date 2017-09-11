@@ -39,16 +39,16 @@ class tiny_video_pixel_network_config:
     conv_lstm_filters = 64
 
     # Training config
-    batch_size = 16
+    batch_size = 1
     epochs_num = 2000
-    iters_per_epoch = 450
+    iters_per_epoch = 1
     truncated_steps = 9
     learning_rate = 3 * 1e-4
     load = False
 
     # Data config
     data_dir = '/tmp/vpn/mnist_test_seq.npy'
-    train_sequences_num = 7000
+    train_sequences_num = 1
 
     # tensorflow config
     max_to_keep = 3

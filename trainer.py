@@ -68,24 +68,26 @@ class Trainer:
             # Logger.info(epoch)
             losses = []
 
+            epoch = self.cur_epoch_tensor.eval(self.sess)
             loop = tqdm(self.data_generator.next_batch(), total=self.config.iters_per_epoch, desc="epoch-" + str(epoch) + "-")
 
-            for itr, (warmup_batch, train_batch) in enumerate(loop):
+            for warmup_batch, train_batch in loop:
                 feed_dict = {self.model.sequences: warmup_batch,
                              self.model.initial_lstm_state: initial_lstm_state}
                 lstm_state = self.sess.run(self.model.final_lstm_state, feed_dict)
 
-                Logger.debug('----------')
+                # Logger.debug('----------')
 
                 feed_dict = {self.model.sequences: train_batch, self.model.initial_lstm_state: lstm_state}
-                if itr == self.config.iters_per_epoch - 1:
+                # if itr == self.config.iters_per_epoch - 1:
+                if True:
                     loss, _, summaries = self.sess.run([self.model.loss, self.model.optimizer, self.model.summaries], feed_dict)
                     self.logger.add_merged_summary(self.global_step_tensor.eval(self.sess), summaries)
                 else:
                     loss, _ = self.sess.run([self.model.loss, self.model.optimizer], feed_dict)
                 losses.append(loss)
 
-                Logger.debug('**********')
+                # Logger.debug('**********')
 
                 self.sess.run(self.global_step_assign_op, {self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
 

@@ -295,7 +295,7 @@ class VideoPixelNetworkModel:
             self.output = tf.transpose(net_unwrap, [1, 0, 2, 3, 4])
 
             for i in range(self.config.truncated_steps):
-                Logger.summarize_images(self.output[:, i], 'frame_{0}'.format(i), 'vpn', 1)
+                Logger.summarize_images(tf.expand_dims(tf.cast(tf.arg_max(self.output[:, i], 3), tf.float32), 3), 'frame_{0}'.format(i), 'vpn', 1)
 
         with tf.name_scope('loss'):
             labels = tf.one_hot(tf.cast(tf.squeeze(self.sequences[:, 1:]), tf.int32),
