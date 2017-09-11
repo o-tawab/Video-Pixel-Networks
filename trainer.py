@@ -32,7 +32,7 @@ class Trainer:
         if not os.path.exists(self.config.summary_dir):
             os.makedirs(self.config.summary_dir)
 
-        self.logger = Logger(sess, self.config.summary_dir)
+        self.logger = Logger(self.sess, self.config.summary_dir)
 
         if self.config.load:
             self.load()
@@ -75,6 +75,8 @@ class Trainer:
                              self.model.initial_lstm_state: initial_lstm_state}
                 lstm_state = self.sess.run(self.model.final_lstm_state, feed_dict)
 
+                Logger.debug('----------')
+
                 feed_dict = {self.model.sequences: train_batch, self.model.initial_lstm_state: lstm_state}
                 if itr == self.config.iters_per_epoch - 1:
                     loss, _, summaries = self.sess.run([self.model.loss, self.model.optimizer, self.model.summaries], feed_dict)
@@ -82,6 +84,8 @@ class Trainer:
                 else:
                     loss, _ = self.sess.run([self.model.loss, self.model.optimizer], feed_dict)
                 losses.append(loss)
+
+                Logger.debug('**********')
 
                 self.sess.run(self.global_step_assign_op, {self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
 

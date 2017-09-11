@@ -210,7 +210,7 @@ class VideoPixelNetworkModel:
             if last_block:
                 rmb = tf.layers.conv2d(
                     h3,
-                    255,
+                    256,
                     1,
                     padding='same',
                     activation=None,
@@ -298,7 +298,11 @@ class VideoPixelNetworkModel:
                 Logger.summarize_images(self.output[:, i], 'frame_{0}'.format(i), 'vpn', 1)
 
         with tf.name_scope('loss'):
-            self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=self.output, labels=self.sequences[:, 1:]))
+            labels = tf.one_hot(tf.cast(tf.squeeze(self.sequences[:, 1:]), tf.int32),
+                                256,
+                                axis=-1,
+                                dtype=tf.float32)
+            self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=self.output, labels=labels))
             self.optimizer = tf.train.RMSPropOptimizer(learning_rate=self.config.learning_rate).minimize(self.loss)
 
         with tf.name_scope('inference_graph'):

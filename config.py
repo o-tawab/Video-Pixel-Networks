@@ -52,5 +52,5 @@ class tiny_video_pixel_network_config:
 
     # tensorflow config
     max_to_keep = 3
-    checkpoint_dir = '/tmp/vpn/checkpoints'
-    summary_dir = 'tmp/vpn'
+    checkpoint_dir = '/tmp/vpn/checkpoints/'
+    summary_dir = 'tmp/vpn/'
