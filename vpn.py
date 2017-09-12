@@ -9,7 +9,9 @@ import os
 tf.reset_default_graph()
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
-sess = tf.Session()
+config = tf.ConfigProto(allow_soft_placement=True)
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
 
 config = tiny_video_pixel_network_config()
 vpn = VideoPixelNetworkModel(config)
