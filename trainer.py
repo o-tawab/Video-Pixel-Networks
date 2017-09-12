@@ -93,6 +93,7 @@ class Trainer:
             self.sess.run(self.cur_epoch_assign_op, {self.cur_epoch_input: self.cur_epoch_tensor.eval(self.sess) + 1})
 
             if epoch % 30 == 0:
+                self.test()
                 self.save()
 
         Logger.info("Training Finished")
@@ -108,7 +109,7 @@ class Trainer:
         lstm_state = self.sess.run(self.model.final_lstm_state, feed_dict)
 
         prev_frame = test_batch[:, 0, :, :, :]
-        for frame in range(self.config.truncated_steps):
+        for frame in range(1):
             feed_dict = {self.model.inference_prev_frame: prev_frame, self.model.initial_lstm_state: lstm_state}
             encoder_state, lstm_state = self.sess.run([self.model.encoder_state, self.model.inference_lstm_state],
                                                       feed_dict)
