@@ -70,10 +70,9 @@ class Trainer:
             epoch = self.cur_epoch_tensor.eval(self.sess)
             Logger.info(epoch)
 
-            # loop = tqdm(self.data_generator.next_batch(), total=self.config.iters_per_epoch, desc="epoch-" + str(epoch) + "-")
-
             for itr in range(self.config.iters_per_epoch):
                 warmup_batch, train_batch = self.data_generator.next_batch()
+
                 feed_dict = {self.model.sequences: warmup_batch,
                              self.model.initial_lstm_state: initial_lstm_state}
                 lstm_state = self.sess.run(self.model.final_lstm_state, feed_dict)
