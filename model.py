@@ -235,7 +235,8 @@ class VideoPixelNetworkModel:
         with tf.variable_scope('resolution_preserving_cnn_encoders'):
             for i in range(self.config.encoder_rmb_num):
                 if self.config.encoder_rmb_dilation:
-                    x = self.residual_multiplicative_block_without_mask(x, self.config.encoder_rmb_dilation_scheme[i], str(i))
+                    x = self.residual_multiplicative_block_without_mask(x, self.config.encoder_rmb_dilation_scheme[i],
+                                                                        str(i))
                 else:
                     x = self.residual_multiplicative_block_without_mask(x, 1, str(i))
 
@@ -295,7 +296,8 @@ class VideoPixelNetworkModel:
             self.output = tf.transpose(net_unwrap, [1, 0, 2, 3, 4])
 
             for i in range(self.config.truncated_steps):
-                Logger.summarize_images(tf.expand_dims(tf.cast(tf.arg_max(self.output[:, i], 3), tf.float32), 3), 'frame_{0}'.format(i), 'vpn', 1)
+                Logger.summarize_images(tf.expand_dims(tf.cast(tf.arg_max(self.output[:, i], 3), tf.float32), 3),
+                                        'frame_{0}'.format(i), 'vpn', 1)
 
         with tf.name_scope('loss'):
             labels = tf.one_hot(tf.cast(tf.squeeze(self.sequences[:, 1:]), tf.int32),
@@ -306,8 +308,12 @@ class VideoPixelNetworkModel:
             self.optimizer = tf.train.RMSPropOptimizer(learning_rate=self.config.learning_rate).minimize(self.loss)
 
         with tf.name_scope('inference_graph'):
-            encoder_state, lstm_state = encoder_network_template(self.inference_prev_frame, lstm_state)
+            lstm_state = tf.contrib.rnn.LSTMStateTuple(self.initial_lstm_state[0], self.initial_lstm_state[1])
+            self.encoder_state, lstm_state = encoder_network_template(self.inference_prev_frame, lstm_state)
             self.inference_lstm_state = lstm_state
-            self.inference_outputinference_output = decoder_network_template(self.inference_encoder_state, self.inference_current_frame)
+            self.inference_output = decoder_network_template(self.inference_encoder_state, self.inference_current_frame)
+            Logger.summarize_images(tf.expand_dims(tf.cast(tf.arg_max(self.inference_output[:], 3), tf.float32), 3),
+                                    'test_frame', 'vpn_test', 1)
 
         self.summaries = tf.summary.merge_all('vpn')
+        self.test_summaries = tf.summary.merge_all('vpn_test')

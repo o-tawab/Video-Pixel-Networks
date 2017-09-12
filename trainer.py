@@ -79,13 +79,15 @@ class Trainer:
 
                 feed_dict = {self.model.sequences: train_batch, self.model.initial_lstm_state: lstm_state}
                 if itr == self.config.iters_per_epoch - 1:
-                    loss, _, summaries = self.sess.run([self.model.loss, self.model.optimizer, self.model.summaries], feed_dict)
+                    loss, _, summaries = self.sess.run([self.model.loss, self.model.optimizer, self.model.summaries],
+                                                       feed_dict)
                     self.logger.add_merged_summary(self.global_step_tensor.eval(self.sess), summaries)
                 else:
                     loss, _ = self.sess.run([self.model.loss, self.model.optimizer], feed_dict)
                 losses.append(loss)
 
-                self.sess.run(self.global_step_assign_op, {self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
+                self.sess.run(self.global_step_assign_op,
+                              {self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
 
             self.logger.add_scalar_summary(self.global_step_tensor.eval(self.sess), {'train_loss': np.mean(losses)})
             self.sess.run(self.cur_epoch_assign_op, {self.cur_epoch_input: self.cur_epoch_tensor.eval(self.sess) + 1})
@@ -95,6 +97,31 @@ class Trainer:
 
         Logger.info("Training Finished")
 
-    def test(self, cur_it):
+    def test(self):
         initial_lstm_state = np.zeros((2, self.config.batch_size, self.config.input_shape[0],
                                        self.config.input_shape[1], self.config.conv_lstm_filters))
+
+        warmup_batch, test_batch = self.data_generator.next_batch()
+
+        feed_dict = {self.model.sequences: warmup_batch,
+                     self.model.initial_lstm_state: initial_lstm_state}
+        lstm_state = self.sess.run(self.model.final_lstm_state, feed_dict)
+
+        prev_frame = test_batch[:, 0, :, :, :]
+        for frame in range(self.config.truncated_steps):
+            feed_dict = {self.model.inference_prev_frame: prev_frame, self.model.initial_lstm_state: lstm_state}
+            encoder_state, lstm_state = self.sess.run([self.model.encoder_state, self.model.inference_lstm_state], feed_dict)
+
+            current_frame = np.zeros([1] + self.config.input_shape)
+            for i in range(self.config.input_shape[0]):
+                for j in range(self.config.input_shape[1]):
+                    feed_dict = {self.model.inference_encoder_state: encoder_state, self.model.inference_current_frame: current_frame}
+                    output, summaries = self.sess.run([self.model.inference_output, self.model.test_summaries], feed_dict)
+                    self.logger.add_merged_summary(frame + 64 * i + j, summaries)
+                    output = np.argmax(output, axis=3)
+                    current_frame[:, i, j, 0] = output[:, i, j]
+
+            prev_frame = current_frame
+
+
+

@@ -23,3 +23,10 @@ class GenerateData:
             current_sequence = self.train_sequences[idx]
 
             return current_sequence[:, :self.config.truncated_steps + 1], current_sequence[:, self.config.truncated_steps:2 * self.config.truncated_steps + 1]
+
+    def test_batch(self):
+        while True:
+            idx = np.random.choice(self.test_sequences.shape[0], self.config.batch_size)
+            current_sequence = self.test_sequences[idx]
+
+            return current_sequence[:, :self.config.truncated_steps + 1], current_sequence[:, self.config.truncated_steps:2 * self.config.truncated_steps + 1]
