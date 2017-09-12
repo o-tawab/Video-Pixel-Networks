@@ -120,7 +120,7 @@ class Trainer:
                     self.logger.add_merged_summary(frame + 64 * i + j, summaries)
                     output = np.argmax(output, axis=3)
                     current_frame[:, i, j, 0] = output[:, i, j]
-                    self.logger.add_image_summary(frame + 64 * i + j, {'tst_frame': current_frame})
+                    print(current_frame[:, i, j, 0])
 
             prev_frame = current_frame
 
