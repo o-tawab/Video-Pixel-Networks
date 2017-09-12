@@ -39,14 +39,14 @@ class Trainer:
 
     def save(self):
         self.saver.save(self.sess, self.config.checkpoint_dir, self.global_step_tensor)
-        print("Model saved")
+        Logger.info("Model saved")
 
     def load(self):
         latest_checkpoint = tf.train.latest_checkpoint(self.config.checkpoint_dir)
         if latest_checkpoint:
-            print("Loading model checkpoint {} ...\n".format(latest_checkpoint))
+            Logger.info("Loading model checkpoint {} ...\n".format(latest_checkpoint))
             self.saver.restore(self.sess, latest_checkpoint)
-            print("Model loaded")
+            Logger.info("Model loaded")
 
     def init_cur_epoch(self):
         with tf.variable_scope('cur_epoch'):
@@ -93,7 +93,7 @@ class Trainer:
 
             self.save()
 
-        print("Training Finished")
+        Logger.info("Training Finished")
 
     def test(self, cur_it):
         initial_lstm_state = np.zeros((2, self.config.batch_size, self.config.input_shape[0],
