@@ -47,10 +47,10 @@ class tiny_video_pixel_network_config:
     load = False
 
     # Data config
-    data_dir = '/tmp/vpn/mnist_test_seq.npy'
+    data_dir = '/shared/Windows1/oabdelta/vpn/mnist_test_seq.npy'
     train_sequences_num = 1
 
     # tensorflow config
     max_to_keep = 3
-    checkpoint_dir = '/tmp/vpn/checkpoints/'
-    summary_dir = '/tmp/vpn/'
+    checkpoint_dir = '/shared/Windows1/oabdelta/vpn/checkpoints/'
+    summary_dir = '/shared/Windows1/oabdelta/vpn/'
