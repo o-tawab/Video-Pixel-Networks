@@ -110,19 +110,19 @@ class Trainer:
         prev_frame = test_batch[:, 0, :, :, :]
         for frame in range(self.config.truncated_steps):
             feed_dict = {self.model.inference_prev_frame: prev_frame, self.model.initial_lstm_state: lstm_state}
-            encoder_state, lstm_state = self.sess.run([self.model.encoder_state, self.model.inference_lstm_state], feed_dict)
+            encoder_state, lstm_state = self.sess.run([self.model.encoder_state, self.model.inference_lstm_state],
+                                                      feed_dict)
 
             current_frame = np.zeros([1] + self.config.input_shape)
             for i in range(self.config.input_shape[0]):
                 for j in range(self.config.input_shape[1]):
-                    feed_dict = {self.model.inference_encoder_state: encoder_state, self.model.inference_current_frame: current_frame}
-                    output, summaries = self.sess.run([self.model.inference_output, self.model.test_summaries], feed_dict)
-                    self.logger.add_merged_summary(frame + 64 * i + j, summaries)
+                    feed_dict = {self.model.inference_encoder_state: encoder_state,
+                                 self.model.inference_current_frame: current_frame}
+                    output, summaries = self.sess.run([self.model.inference_output, self.model.test_summaries],
+                                                      feed_dict)
+                    self.logger.add_merged_summary(64 * 64 * frame + 64 * i + j, summaries)
                     output = np.argmax(output, axis=3)
-                    current_frame[:, i, j, 0] = output[:, i, j]
+                    current_frame[:, i, j, 0] = output[:, i, j].copy()
                     print(current_frame[:, i, j, 0])
 
-            prev_frame = current_frame
-
-
-
+            prev_frame = current_frame.copy()
