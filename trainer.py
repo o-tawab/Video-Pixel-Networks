@@ -65,29 +65,26 @@ class Trainer:
                                        self.config.input_shape[1], self.config.conv_lstm_filters))
 
         for epoch in range(self.cur_epoch_tensor.eval(self.sess), self.config.epochs_num):
-            # Logger.info(epoch)
             losses = []
 
             epoch = self.cur_epoch_tensor.eval(self.sess)
-            loop = tqdm(self.data_generator.next_batch(), total=self.config.iters_per_epoch, desc="epoch-" + str(epoch) + "-")
+            Logger.info(epoch)
 
-            for warmup_batch, train_batch in loop:
+            # loop = tqdm(self.data_generator.next_batch(), total=self.config.iters_per_epoch, desc="epoch-" + str(epoch) + "-")
+
+            for itr in range(self.config.iters_per_epoch):
+                warmup_batch, train_batch = self.data_generator.next_batch()
                 feed_dict = {self.model.sequences: warmup_batch,
                              self.model.initial_lstm_state: initial_lstm_state}
                 lstm_state = self.sess.run(self.model.final_lstm_state, feed_dict)
 
-                # Logger.debug('----------')
-
                 feed_dict = {self.model.sequences: train_batch, self.model.initial_lstm_state: lstm_state}
-                # if itr == self.config.iters_per_epoch - 1:
-                if True:
+                if itr == self.config.iters_per_epoch - 1:
                     loss, _, summaries = self.sess.run([self.model.loss, self.model.optimizer, self.model.summaries], feed_dict)
                     self.logger.add_merged_summary(self.global_step_tensor.eval(self.sess), summaries)
                 else:
                     loss, _ = self.sess.run([self.model.loss, self.model.optimizer], feed_dict)
                 losses.append(loss)
-
-                # Logger.debug('**********')
 
                 self.sess.run(self.global_step_assign_op, {self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
 

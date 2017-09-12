@@ -22,4 +22,4 @@ class GenerateData:
             idx = np.random.choice(self.config.train_sequences_num, self.config.batch_size)
             current_sequence = self.train_sequences[idx]
 
-            yield current_sequence[:, :self.config.truncated_steps + 1], current_sequence[:, self.config.truncated_steps:2 * self.config.truncated_steps + 1]
+            return current_sequence[:, :self.config.truncated_steps + 1], current_sequence[:, self.config.truncated_steps:2 * self.config.truncated_steps + 1]

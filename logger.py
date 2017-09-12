@@ -23,6 +23,7 @@ class Logger:
 
     def add_merged_summary(self, step, merged_summary):
         self.summary_writer.add_summary(merged_summary, step)
+        self.summary_writer.flush()
 
     def add_scalar_summary(self, step, summaries_dict):
         ops_list = []
@@ -37,6 +38,7 @@ class Logger:
 
         summary = self.sess.run(merged, feed_dict)
         self.summary_writer.add_summary(summary, step)
+        self.summary_writer.flush()
 
     def add_image_summary(self, step, summaries_dict):
         ops_list = []
