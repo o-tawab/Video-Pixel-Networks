@@ -18,7 +18,7 @@ class Logger:
         self.summary_ops[tag] = tf.summary.scalar(tensor=self.summary_inputs[tag], name=tag)
 
     def initialize_image_summary(self, tag, shape):
-        self.summary_inputs[tag] = tf.placeholder(tf.float32, [None] + shape, name=tag)
+        self.summary_inputs[tag] = tf.placeholder(tf.float32, shape, name=tag)
         self.summary_ops[tag] = tf.summary.image(tensor=self.summary_inputs[tag], name=tag)
 
     def add_merged_summary(self, step, merged_summary):
