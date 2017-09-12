@@ -36,7 +36,7 @@ class tiny_video_pixel_network_config:
     decoder_rmb_num = 3
 
     # ConvLSTM config
-    conv_lstm_filters = 32
+    conv_lstm_filters = 64
 
     # Training config
     batch_size = 1
