@@ -25,7 +25,7 @@ class tiny_video_pixel_network_config:
     input_shape = [64, 64, 1]
 
     # RMB config
-    rmb_c = 16
+    rmb_c = 32
 
     # Encoder config
     encoder_rmb_num = 2
