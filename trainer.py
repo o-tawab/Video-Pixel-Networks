@@ -91,7 +91,8 @@ class Trainer:
             self.logger.add_scalar_summary(self.global_step_tensor.eval(self.sess), {'train_loss': np.mean(losses)})
             self.sess.run(self.cur_epoch_assign_op, {self.cur_epoch_input: self.cur_epoch_tensor.eval(self.sess) + 1})
 
-            self.save()
+            if epoch % 30 == 0:
+                self.save()
 
         Logger.info("Training Finished")
 

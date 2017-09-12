@@ -40,11 +40,11 @@ class tiny_video_pixel_network_config:
 
     # Training config
     batch_size = 1
-    epochs_num = 2000
+    epochs_num = 5000
     iters_per_epoch = 1
     truncated_steps = 9
     learning_rate = 3 * 1e-4
-    load = False
+    load = True
 
     # Data config
     data_dir = '/shared/Windows1/oabdelta/vpn/mnist_test_seq.npy'
