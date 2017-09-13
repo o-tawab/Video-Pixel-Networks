@@ -193,12 +193,20 @@ class VideoPixelNetworkModel:
                     name='h1'
                 )
 
-            h2 = self.multiplicative_unit_with_mask(
-                h1, 'B',
-                self.config.rmb_c,
-                self.config.rmb_c,
-                self.config.rmb_c,
-                '1')
+            if first_block:
+                h2 = self.multiplicative_unit_with_mask(
+                    h1, 'A',
+                    self.config.input_shape[2],
+                    self.config.rmb_c,
+                    self.config.rmb_c,
+                    '1')
+            else:
+                h2 = self.multiplicative_unit_with_mask(
+                    h1, 'B',
+                    self.config.rmb_c,
+                    self.config.rmb_c,
+                    self.config.rmb_c,
+                    '1')
 
             h3 = self.multiplicative_unit_with_mask(
                 h2, 'B',

@@ -23,8 +23,8 @@ def masked_conv2d(inputs,
 
             mask = np.ones(weights_shape, dtype=np.float32)
 
-            mask[center_h, center_w + 1:, :channels_masked, :] = 0.
-            mask[center_h + 1:, :, :channels_masked, :] = 0.
+            mask[center_h, center_w + 1:, :, :] = 0.
+            mask[center_h + 1:, :, :, :] = 0.
 
             if mask_type == 'A':
                 mask[center_h, center_w, :channels_masked, :] = 0.
