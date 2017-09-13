@@ -93,7 +93,7 @@ class Trainer:
             self.sess.run(self.cur_epoch_assign_op, {self.cur_epoch_input: self.cur_epoch_tensor.eval(self.sess) + 1})
 
             if epoch % 100 == 0:
-                self.test()
+                # self.test()
                 self.save()
 
         Logger.info("Training Finished")

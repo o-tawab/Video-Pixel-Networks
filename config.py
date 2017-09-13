@@ -40,7 +40,7 @@ class tiny_video_pixel_network_config:
 
     # Training config
     batch_size = 1
-    epochs_num = 5000
+    epochs_num = 50000
     iters_per_epoch = 1
     truncated_steps = 9
     learning_rate = 3 * 1e-4
