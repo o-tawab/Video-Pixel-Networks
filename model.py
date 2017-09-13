@@ -81,7 +81,7 @@ class VideoPixelNetworkModel:
             return mu
 
     def multiplicative_unit_with_mask(self, h, mask_type, masked_channels, in_channels, out_channels, scope):
-        with tf.variable_scope('multiplicative_unit_without_mask_' + scope):
+        with tf.variable_scope('multiplicative_unit_with_mask_' + scope):
             g1 = masked_conv2d(
                 h,
                 in_channels,  # num of channels in input
@@ -202,14 +202,14 @@ class VideoPixelNetworkModel:
                     '1')
             else:
                 h2 = self.multiplicative_unit_with_mask(
-                    h1, 'B',
+                    h1, 'A',
                     self.config.rmb_c,
                     self.config.rmb_c,
                     self.config.rmb_c,
                     '1')
 
             h3 = self.multiplicative_unit_with_mask(
-                h2, 'B',
+                h2, 'A',
                 self.config.rmb_c,
                 self.config.rmb_c,
                 self.config.rmb_c,
@@ -236,6 +236,7 @@ class VideoPixelNetworkModel:
                     name='h4'
                 )
                 rmb = tf.add(h, h4)
+                # rmb = h4
 
             return rmb
 
