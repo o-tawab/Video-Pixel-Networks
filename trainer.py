@@ -124,6 +124,6 @@ class Trainer:
                     self.logger.add_merged_summary(64 * 64 * frame + 64 * i + j, summaries)
                     output = np.argmax(output, axis=3)
                     current_frame[:, i, j, 0] = output[:, i, j].copy()
-                    print(output[:, i, j])
+                    # print(output[:, i, j])
 
             prev_frame = current_frame.copy()
