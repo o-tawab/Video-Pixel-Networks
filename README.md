@@ -4,7 +4,9 @@ The VPN is a probabilistic video model that estimates the discrete joint distrib
 This repository contains a tensorflow implementation of the VPN architecture proposed in the [paper](https://arxiv.org/abs/1610.00527). However, this code hasn’t been trained and tested on the full Moving MNIST dataset because of the lack of the computation power. It has been overfitted on one sequence to insure the correctness of the implementation. 
 
 This repository also contains some additional experiments with the VPN architecture that are not mentioned in the original paper. These experiments are:
-* Tiny VPN architecture.
+* Mini VPN architecture.
+* Micro VPN architecture.
+* Prediction-Based VPN architecture.
 * Action conditioned VPN (ongoing work).
  
 
