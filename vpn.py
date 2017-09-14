@@ -1,5 +1,5 @@
 import tensorflow as tf
-from config import tiny_video_pixel_network_config
+from config import mini_video_pixel_network_config
 from model import VideoPixelNetworkModel
 from data_generator import GenerateData
 from trainer import Trainer
@@ -13,10 +13,10 @@ config = tf.ConfigProto(allow_soft_placement=True)
 config.gpu_options.allow_growth = True
 sess = tf.Session(config=config)
 
-config = tiny_video_pixel_network_config()
+config = mini_video_pixel_network_config()
 vpn = VideoPixelNetworkModel(config)
 data_generator = GenerateData(config)
 trainer = Trainer(sess, vpn, data_generator, config)
 
-# trainer.train()
+trainer.train()
 trainer.test()

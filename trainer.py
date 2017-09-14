@@ -32,6 +32,9 @@ class Trainer:
         if not os.path.exists(self.config.summary_dir):
             os.makedirs(self.config.summary_dir)
 
+        if not os.path.exists(self.config.checkpoint_dir):
+            os.makedirs(self.config.checkpoint_dir)
+
         self.logger = Logger(self.sess, self.config.summary_dir)
 
         if self.config.load:
@@ -92,7 +95,7 @@ class Trainer:
             self.logger.add_scalar_summary(self.global_step_tensor.eval(self.sess), {'train_loss': np.mean(losses)})
             self.sess.run(self.cur_epoch_assign_op, {self.cur_epoch_input: self.cur_epoch_tensor.eval(self.sess) + 1})
 
-            if epoch % 100 == 0:
+            if epoch % self.config.test_every == 0:
                 self.test()
                 self.save()
 
@@ -102,7 +105,10 @@ class Trainer:
         initial_lstm_state = np.zeros((2, self.config.batch_size, self.config.input_shape[0],
                                        self.config.input_shape[1], self.config.conv_lstm_filters))
 
-        warmup_batch, test_batch = self.data_generator.next_batch()
+        if self.config.overfitting:
+            warmup_batch, test_batch = self.data_generator.next_batch()
+        else:
+            warmup_batch, test_batch = self.data_generator.test_batch()
 
         feed_dict = {self.model.sequences: warmup_batch,
                      self.model.initial_lstm_state: initial_lstm_state}
