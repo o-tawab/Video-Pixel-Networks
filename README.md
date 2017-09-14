@@ -6,7 +6,7 @@ This repository contains a tensorflow implementation of the VPN architecture pro
 This repository also contains some additional experiments with the VPN architecture that are not mentioned in the original paper. These experiments are:
 * Mini VPN architecture.
 * Micro VPN architecture.
-* Prediction-Based VPN architecture.
+* Prediction-Based VPN architecture (ongoing work).
 * Action conditioned VPN (ongoing work).
  
 
