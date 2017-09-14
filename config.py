@@ -68,7 +68,7 @@ class micro_video_pixel_network_config:
     # Encoder config
     encoder_rmb_num = 2
     encoder_rmb_dilation = False
-    encoder_rmb_dilation_scheme = [1, 2, 4, 8]
+    encoder_rmb_dilation_scheme = [1, 2]
 
     # Decoder config
     decoder_rmb_num = 3
