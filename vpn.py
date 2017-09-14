@@ -18,5 +18,5 @@ vpn = VideoPixelNetworkModel(config)
 data_generator = GenerateData(config)
 trainer = Trainer(sess, vpn, data_generator, config)
 
-trainer.train()
+# trainer.train()
 trainer.test()

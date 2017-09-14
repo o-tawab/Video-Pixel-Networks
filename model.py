@@ -321,8 +321,12 @@ class VideoPixelNetworkModel:
             self.encoder_state, lstm_state = encoder_network_template(self.inference_prev_frame, lstm_state)
             self.inference_lstm_state = lstm_state
             self.inference_output = decoder_network_template(self.inference_encoder_state, self.inference_current_frame)
-        Logger.summarize_images(tf.expand_dims(tf.cast(tf.arg_max(self.inference_output, 3), tf.float32), 3),
-                                'test_frame_', 'vpn_test', 1)
+
+        self.test_summaries = []
+        for i in range(self.config.truncated_steps):
+            Logger.summarize_images(tf.expand_dims(tf.cast(tf.arg_max(self.inference_output, 3), tf.float32), 3),
+                                    'test_frame_{0}'.format(i), 'vpn_test_{0}'.format(i), 1)
+            self.test_summaries.append(tf.summary.merge_all('vpn_test_{0}'.format(i)))
 
         self.summaries = tf.summary.merge_all('vpn')
-        self.test_summaries = tf.summary.merge_all('vpn_test')
+
