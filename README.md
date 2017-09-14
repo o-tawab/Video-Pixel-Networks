@@ -8,6 +8,11 @@ This repository also contains some additional experiments with the VPN architect
 * Micro VPN architecture.
 * Prediction-Based VPN architecture (ongoing work).
 * Action conditioned VPN (ongoing work).
- 
 
+### The Moving MNIST Dataset
+You can download the full moving MNIST dataset from toronto [website](http://www.cs.toronto.edu/~nitish/unsupervised_video/). 
 
+### Training
+```
+python vpn.py
+```
