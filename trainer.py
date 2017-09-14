@@ -121,10 +121,8 @@ class Trainer:
                                  self.model.inference_current_frame: current_frame}
                     output, summaries = self.sess.run([self.model.inference_output, self.model.test_summaries[frame]],
                                                       feed_dict)
-                    self.logger.add_merged_summary(64 * 64 * frame + 64 * i + j, summaries)
+                    self.logger.add_merged_summary(64 * i + j, summaries)
                     output = np.argmax(output, axis=3)
                     current_frame[:, i, j, 0] = output[:, i, j].copy()
-                    # current_frame[:, i, j, 0] = test_batch[:, 1, i, j, 0]
-                    # print(output[:, i, j])
 
             prev_frame = current_frame.copy()
