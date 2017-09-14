@@ -64,6 +64,7 @@ class Trainer:
             self.global_step_assign_op = self.global_step_tensor.assign(self.global_step_input)
 
     def train(self):
+        Logger.info("Starting training...")
         initial_lstm_state = np.zeros((2, self.config.batch_size, self.config.input_shape[0],
                                        self.config.input_shape[1], self.config.conv_lstm_filters))
 
@@ -71,7 +72,6 @@ class Trainer:
             losses = []
 
             epoch = self.cur_epoch_tensor.eval(self.sess)
-            Logger.info(epoch)
 
             for itr in range(self.config.iters_per_epoch):
                 warmup_batch, train_batch = self.data_generator.next_batch()
@@ -92,6 +92,7 @@ class Trainer:
                 self.sess.run(self.global_step_assign_op,
                               {self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
 
+            Logger.info('epoch #{0}:    loss={1}'.format(epoch, np.mean(losses)))
             self.logger.add_scalar_summary(self.global_step_tensor.eval(self.sess), {'train_loss': np.mean(losses)})
             self.sess.run(self.cur_epoch_assign_op, {self.cur_epoch_input: self.cur_epoch_tensor.eval(self.sess) + 1})
 
@@ -99,9 +100,11 @@ class Trainer:
                 self.test()
                 self.save()
 
-        Logger.info("Training Finished")
+        Logger.info("Training finished")
 
     def test(self):
+        Logger.info("Starting testing...")
+
         initial_lstm_state = np.zeros((2, self.config.batch_size, self.config.input_shape[0],
                                        self.config.input_shape[1], self.config.conv_lstm_filters))
 
@@ -132,3 +135,5 @@ class Trainer:
                     current_frame[:, i, j, 0] = output[:, i, j].copy()
 
             prev_frame = current_frame.copy()
+
+        Logger.info("Testing finished")

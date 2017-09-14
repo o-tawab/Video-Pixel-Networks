@@ -39,6 +39,7 @@ class mini_video_pixel_network_config:
     conv_lstm_filters = 64
 
     # Training config
+    train = True
     overfitting = True
     batch_size = 1
     epochs_num = 50000
@@ -48,14 +49,14 @@ class mini_video_pixel_network_config:
     load = True
 
     # Data config
-    data_dir = '/shared/Windows1/oabdelta/vpn/mnist_test_seq.npy'
+    data_dir = '/tmp/vpn/mnist_test_seq.npy'
     train_sequences_num = 1
 
     # tensorflow config
     max_to_keep = 3
     test_every = 100
-    checkpoint_dir = '/shared/Windows1/oabdelta/vpn/mini/checkpoints/'
-    summary_dir = '/shared/Windows1/oabdelta/vpn/mini/'
+    checkpoint_dir = '/tmp/vpn/mini/checkpoints/'
+    summary_dir = '/tmp/vpn/mini/'
 
 
 class micro_video_pixel_network_config:
@@ -76,6 +77,7 @@ class micro_video_pixel_network_config:
     conv_lstm_filters = 64
 
     # Training config
+    train = True
     overfitting = True
     batch_size = 1
     epochs_num = 50000
@@ -85,11 +87,11 @@ class micro_video_pixel_network_config:
     load = True
 
     # Data config
-    data_dir = '/shared/Windows1/oabdelta/vpn/mnist_test_seq.npy'
+    data_dir = '/tmp/vpn/mnist_test_seq.npy'
     train_sequences_num = 1
 
     # tensorflow config
     max_to_keep = 3
     test_every = 100
-    checkpoint_dir = '/shared/Windows1/oabdelta/vpn/micro/checkpoints/'
-    summary_dir = '/shared/Windows1/oabdelta/vpn/micro/'
+    checkpoint_dir = '/tmp/vpn/micro/checkpoints/'
+    summary_dir = '/tmp/vpn/micro/'
