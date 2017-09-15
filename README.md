@@ -10,7 +10,7 @@ This repository also contains some additional experiments with the VPN architect
 ### The Moving MNIST Dataset
 You can download the full moving MNIST dataset from toronto [website](http://www.cs.toronto.edu/~nitish/unsupervised_video/). 
 
-### Over Fitting On One Sequence
+### Overfitting On One Sequence
 ```
 python vpn.py --vpn_arch='mini' --train=True --overfitting=Ture --data_dir='/numpy/file/directory/' --exp_dir='/tmp/vpn/'
 ```
