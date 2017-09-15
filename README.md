@@ -14,5 +14,5 @@ You can download the full moving MNIST dataset from toronto [website](http://www
 
 ### Training
 ```
-python vpn.py
+python vpn.py --vpn_arch='mini'
 ```
