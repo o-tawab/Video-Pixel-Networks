@@ -6,13 +6,19 @@ This repository contains a tensorflow implementation of the VPN architecture pro
 This repository also contains some additional experiments with the VPN architecture that are not mentioned in the original paper. These experiments are:
 * Mini VPN architecture.
 * Micro VPN architecture.
-* Prediction-Based VPN architecture (ongoing work).
-* Action conditioned VPN (ongoing work).
 
 ### The Moving MNIST Dataset
 You can download the full moving MNIST dataset from toronto [website](http://www.cs.toronto.edu/~nitish/unsupervised_video/). 
 
-### Training
+### Over Fitting On One Sequence
 ```
-python vpn.py --vpn_arch='mini'
+python vpn.py --vpn_arch='mini' --train=True --overfitting=Ture --data_dir='/numpy/file/directory/' --exp_dir='/tmp/vpn/'
 ```
+
+### Training On The Full Dataset
+```
+python vpn.py --vpn_arch='mini' --train=True --overfitting=False --data_dir='/numpy/file/directory/' --exp_dir='/tmp/vpn/'
+```
+
+### TODO
+* Train on data generated on the air.
