@@ -6,8 +6,6 @@ This repository contains a tensorflow implementation of the VPN architecture pro
 This repository also contains some additional experiments with the VPN architecture that are not mentioned in the original paper. These experiments are:
 * Mini VPN architecture.
 * Micro VPN architecture.
-* Prediction-Based VPN architecture (ongoing work).
-* Action conditioned VPN (ongoing work).
 
 ### The Moving MNIST Dataset
 You can download the full moving MNIST dataset from toronto [website](http://www.cs.toronto.edu/~nitish/unsupervised_video/). 
