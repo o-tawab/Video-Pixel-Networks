@@ -14,6 +14,9 @@ This repository also contains some additional experiments with the VPN architect
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/2.PNG "frame 3")
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/3.PNG "frame 4")
 
+## The loss curve
+![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/loss_graph.PNG "loss")
+
 
 ### The Moving MNIST Dataset
 You can download the full moving MNIST dataset from toronto [website](http://www.cs.toronto.edu/~nitish/unsupervised_video/). 
