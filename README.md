@@ -7,6 +7,13 @@ This repository also contains some additional experiments with the VPN architect
 * Mini VPN architecture.
 * Micro VPN architecture.
 
+## Examples of the network output
+![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/0.PNG "frame 1")
+![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/1.PNG "frame 2")
+![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/2.PNG "frame 3")
+![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/3.PNG "frame 4")
+
+
 ### The Moving MNIST Dataset
 You can download the full moving MNIST dataset from toronto [website](http://www.cs.toronto.edu/~nitish/unsupervised_video/). 
 
