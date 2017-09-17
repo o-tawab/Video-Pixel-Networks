@@ -8,6 +8,7 @@ This repository also contains some additional experiments with the VPN architect
 * Micro VPN architecture.
 
 ## Examples of the network output
+Here's different steps from predicting the first frame pixel-by-pixel:
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/0.PNG "frame 1")
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/1.PNG "frame 2")
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/2.PNG "frame 3")
