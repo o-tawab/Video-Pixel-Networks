@@ -15,6 +15,7 @@ This repository also contains some additional experiments with the VPN architect
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/3.PNG "frame 4")
 
 ## The loss curves for the micro and the mini architectures
+##### full:pink, mini:red, micro:orange
 ![alt text](https://github.com/3ammor/Video-Pixel-Networks/blob/master/images/graph.PNG "loss")
 
 
