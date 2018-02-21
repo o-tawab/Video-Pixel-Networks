@@ -242,6 +242,15 @@ class VideoPixelNetworkModel:
 
     def resolution_preserving_cnn_encoders(self, x):
         with tf.variable_scope('resolution_preserving_cnn_encoders'):
+            x = tf.layers.conv2d(
+                x,
+                2 * self.config.rmb_c,
+                1,
+                padding='same',
+                activation=None,
+                kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                name='input_conv'
+            )
             for i in range(self.config.encoder_rmb_num):
                 if self.config.encoder_rmb_dilation:
                     x = self.residual_multiplicative_block_without_mask(x, self.config.encoder_rmb_dilation_scheme[i],
