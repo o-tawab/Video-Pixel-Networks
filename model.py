@@ -133,6 +133,12 @@ class VideoPixelNetworkModel:
             g2_h = tf.multiply(g2, h)
             g3_u = tf.multiply(g3, u)
 
+            if mask_type == 'B':
+                g2_h = tf.multiply(g2, h)
+            else:
+                g2_h = g2
+            g3_u = tf.multiply(g3, u)
+
             mu = tf.multiply(g1, tf.tanh(g2_h + g3_u))
 
             return mu
@@ -202,14 +208,14 @@ class VideoPixelNetworkModel:
                     '1')
             else:
                 h2 = self.multiplicative_unit_with_mask(
-                    h1, 'A',
+                    h1, 'B',
                     self.config.rmb_c,
                     self.config.rmb_c,
                     self.config.rmb_c,
                     '1')
 
             h3 = self.multiplicative_unit_with_mask(
-                h2, 'A',
+                h2, 'B',
                 self.config.rmb_c,
                 self.config.rmb_c,
                 self.config.rmb_c,
@@ -236,7 +242,6 @@ class VideoPixelNetworkModel:
                     name='h4'
                 )
                 rmb = tf.add(h, h4)
-                # rmb = h4
 
             return rmb
 
@@ -339,4 +344,3 @@ class VideoPixelNetworkModel:
                 self.test_summaries.append(tf.summary.merge_all('vpn_test_{0}'.format(i)))
 
         self.summaries = tf.summary.merge_all('vpn')
-
